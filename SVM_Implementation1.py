@@ -26,9 +26,9 @@ data.dropna(axis=1, how='all', inplace=True)
 # Drop rows with any NaN values
 data = data.dropna()
 
-# Display the first few rows of the dataset
-st.write("First few rows of the dataset:")
-st.write(data.head())
+# # Display the first few rows of the dataset
+# st.write("First few rows of the dataset:")
+# st.write(data.head())
 
 # Define the features and target
 features = ['TOC', 'Field conductivity', 'Lab conductivity', 'Field resistivity (?)',
