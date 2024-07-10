@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Jul 10 13:14:46 2024
+
+@author: zzulk
+"""
+
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -8,7 +15,7 @@ import joblib
 import streamlit as st
 
 # Load the data
-data = pd.read_csv('ML_Analysis_Soil_Type_1.csv')
+data = pd.read_csv('ML_Analysis_Soil_Type_1.csv')  # Ensure the CSV is in the same directory
 
 # Replace zeros with ones where appropriate
 data.replace(0, 1, inplace=True)
@@ -18,6 +25,10 @@ data.dropna(axis=1, how='all', inplace=True)
 
 # Drop rows with any NaN values
 data = data.dropna()
+
+# Display the first few rows of the dataset
+st.write("First few rows of the dataset:")
+st.write(data.head())
 
 # Define the features and target
 features = ['TOC', 'Field conductivity', 'Lab conductivity', 'Field resistivity (?)',
@@ -45,6 +56,15 @@ clf.fit(X_train, y_train)
 
 # Make predictions on the test set
 y_pred = clf.predict(X_test)
+
+# # Evaluate the model
+# accuracy = accuracy_score(y_test, y_pred)
+# st.write(f"Model Accuracy: {accuracy}")
+
+# # Print the classification report
+# unique_test_labels = np.unique(y_test)
+# st.write("Classification Report:")
+# st.text(classification_report(y_test, y_pred, labels=unique_test_labels))
 
 # Save the model and scaler
 joblib.dump(clf, 'random_forest_model.pkl')
@@ -92,6 +112,27 @@ def predict_soil_type(input_features):
 
 # Streamlit UI for user input
 st.title("Soil Type Predictor")
+
+# Add custom CSS to change slider and pointer color
+st.markdown(
+    """
+    <style>
+    .stSlider > div > div > div > input[type=range]::-webkit-slider-runnable-track {
+        background: lightblue;
+    }
+    .stSlider > div > div > div > input[type=range]::-webkit-slider-thumb {
+        background: lightblue;
+    }
+    .stSlider > div > div > div > input[type=range]::-moz-range-track {
+        background: lightblue;
+    }
+    .stSlider > div > div > div > input[type=range]::-moz-range-thumb {
+        background: lightblue;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 user_inputs = {}
 for feature in features:
